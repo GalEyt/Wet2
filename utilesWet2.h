@@ -26,7 +26,7 @@ class Output_t {
     StatusType status() { return __status; }
     T ans() { return __res; }
     bool is_res() { return __is_res; }
-};
+};//Hello World!
 
 
 #endif
