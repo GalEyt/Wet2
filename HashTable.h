@@ -16,21 +16,7 @@ class HashTable{
     }
 
     void expand(){
-        AVLTree<T, Key>* newTable[tableSize*2];
-        for (int i=0; i<tableSize; i++){
-            while (table[i] && table[i].getHeight() != -1){
-                Key rootID = table[i].getID();
-                if (!newTable[hushFunkExpand(rootID)]){
-                    newTable[hushFunkExpand(rootID)] = new AVLTree<T, Key>();
-                }
-                newTable[hushFunkExpand(rootID)].insert(table[i].getData(), rootID);
-                table[i].remove(rootID);
-            }
-            //delet table[i];
-        }
-        delete[] table;
-        tableSize *= 2;
-        table = newTable;
+        changeSize(tableSize*2, tableSize);
     }
 
     bool checkForShrink(){
@@ -38,33 +24,29 @@ class HashTable{
     }
 
     void shrink(){
-        AVLTree<T, Key>* newTable[tableSize/2];
-        for (int i=0; i<tableSize; i++){
+        changeSize(tableSize\2, tableSize);
+    }
+
+    void changeSize(int size, int oldSize){
+        AVLTree<T, Key>* newTable[size];
+        tableSize = size;
+        for (int i=0; i<oldSize; i++){
             while (table[i] && table[i].getHeight() != -1){
                 Key rootID = table[i].getID();
-                if (!newTable[hushFunkShrink(rootID)]){
-                    newTable[hushFunkShrink(rootID)] = new AVLTree<T, Key>();
+                if (!newTable[hushFunk(rootID)]){
+                    newTable[hushFunk(rootID)] = new AVLTree<T, Key>();
                 }
-                newTable[hushFunkShrink(rootID)].insert(table[i].getData(), rootID);
+                newTable[hushFunk(rootID)].insert(table[i].getData(), rootID);
                 table[i].remove(rootID);
             }
-            //delet table[i];
+            //delete table[i];
         }
         delete[] table;
-        tableSize /= 2;
         table = newTable;
     }
 
     int hushFunk(Key key){
         return key % tableSize;
-    }
-
-    int hushFunkExpand(Key key){
-        return key % tableSize*2;
-    }
-
-    int hushFunkShrink(Key key){
-        return key % tableSize/2;
     }
 
     public:
@@ -74,22 +56,22 @@ class HashTable{
             if (checkForExpansion()){
                 expand();
             }
-            if (!table[hushTable(key)]){
-                table[hushTable(key)] = new AVLTree<T, Key>();
+            if (!table[hushFunk(key)]){
+                table[hushFunk(key)] = new AVLTree<T, Key>();
             }
-            table[hushTable(key)].insert(elem, key);
-            elementCount ++;
+            table[hushFunk(key)].insert(elem, key);
+            elementCount++;
         }
 
         void removeElement(Key key){
             if (checkForShrink()){
                 shrink();
             }
-            if (!table[hushTable(key)]){
+            if (!table[hushFunk(key)]){
                 throw notFound();
             }
-            table[hushTable(key)].remove(key);
-            elementCount --;
+            table[hushFunk(key)].remove(key);
+            elementCount--;
         }
 
         void getElement(Key key){
