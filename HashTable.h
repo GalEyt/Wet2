@@ -81,8 +81,6 @@ class HashTable{
             return table[hushTable(key)].find(key);
         }
 
-
-
 };
 
 #endif //HASH_TABLE
