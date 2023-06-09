@@ -27,7 +27,7 @@ class Element{
         T data;
     public:
         Element(int id, T data, int groupID): ID(id), distanceFromRoot(0), group(nullptr), next(nullptr), data(data){
-            group = new Group(groupID)
+            group = new Group(groupID);
         }
 
         bool isRoot(){
@@ -92,8 +92,8 @@ class UnionFind{
         }
 
         int find(int elementID){
-            Element<T>* root = elements[i]->getRoot();
-            Element<T>* it = elements[i];
+            Element<T>* root = elements[elementID]->getRoot();
+            Element<T>* it = elements[elementID];
             while (!it->isRoot()){
                 it.setNext(root);
                 it = it->getNext();

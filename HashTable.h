@@ -4,11 +4,12 @@
 #include "AVLTree.h"
 using namespace std;
 
+
 template <class Key, class T>
 class HashTable{
     private:
         int elementCount = 0;
-        AVLTree<T, Key>** table[] = {nullptr, nullptr}; //we need to fix it!!!!!!!!!
+        AVLTree<T, Key>** table; //we need to fix it!!!!!!!!!
         int tableSize = 2;
 
     bool checkForExpansion(){
@@ -31,13 +32,13 @@ class HashTable{
         AVLTree<T, Key>* newTable[size];
         tableSize = size;
         for (int i=0; i<oldSize; i++){
-            while (table[i] && table[i].getHeight() != -1){
-                Key rootID = table[i].getID();
+            while (table[i] && table[i]->getHeight() != -1){
+                Key rootID = table[i]->getID();
                 if (!newTable[hushFunk(rootID)]){
                     newTable[hushFunk(rootID)] = new AVLTree<T, Key>();
                 }
-                newTable[hushFunk(rootID)].insert(table[i].getData(), rootID);
-                table[i].remove(rootID);
+                newTable[hushFunk(rootID)]->insert(table[i]->getData(), rootID);
+                table[i]->remove(rootID);
             }
             //delete table[i];
         }
@@ -50,7 +51,10 @@ class HashTable{
     }
 
     public:
-        HashTable() = default;
+        HashTable(){
+            table = new AVLTree<int, int>*(new AVLTree<int, int>());
+            table[1] = new AVLTree<int, int>();
+        }
 
         void addElement(T elem, Key key){
             if (checkForExpansion()){
@@ -59,7 +63,7 @@ class HashTable{
             if (!table[hushFunk(key)]){
                 table[hushFunk(key)] = new AVLTree<T, Key>();
             }
-            table[hushFunk(key)].insert(elem, key);
+            table[hushFunk(key)]->insert(elem, key);
             elementCount++;
         }
 
@@ -68,17 +72,17 @@ class HashTable{
                 shrink();
             }
             if (!table[hushFunk(key)]){
-                throw notFound();
+                throw NotFound();
             }
-            table[hushFunk(key)].remove(key);
+            table[hushFunk(key)]->remove(key);
             elementCount--;
         }
 
         void getElement(Key key){
             if (!table[hushTable(key)]){
-                throw notFound();
+                throw NotFound();
             }
-            return table[hushTable(key)].find(key);
+            return table[hushTable(key)]->find(key);
         }
 
 };
