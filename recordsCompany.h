@@ -2,12 +2,16 @@
 #define RECORDS_COMPANY_H
 
 #include "utilesWet2.h"
-
+#include "HashTable.h"
+#include "unionFind.h"
 
 
 class RecordsCompany {
   private:
-    // todo
+    int m_numOfCustomers = 0;
+    HashTable<int, int> m_customers();
+    HashTable<int, int> m_Records();
+
   public:
     RecordsCompany();
     ~RecordsCompany();

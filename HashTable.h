@@ -7,7 +7,7 @@ using namespace std;
 
 template <class Key, class T>
 class HashTable{
-    private:
+private:
         int elementCount = 0;
         AVLTree<T, Key>** table; //we need to fix it!!!!!!!!!
         int tableSize = 2;
@@ -50,7 +50,7 @@ class HashTable{
         return key % tableSize;
     }
 
-    public:
+public:
         HashTable(){
             table = new AVLTree<int, int>*(new AVLTree<int, int>());
             table[1] = new AVLTree<int, int>();
