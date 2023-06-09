@@ -1,5 +1,5 @@
 
-#ifdef HASH_TABLE
+#ifndef HASH_TABLE
 #define HASH_TABLE
 #include "AVLTree.h"
 using namespace std;
@@ -8,8 +8,8 @@ template <class Key, class T>
 class HashTable{
     private:
         int elementCount = 0;
-        AVLTree<T, Key>* table[] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-        int tableSize = 8;
+        AVLTree<T, Key>** table[] = {nullptr, nullptr}; //we need to fix it!!!!!!!!!
+        int tableSize = 2;
 
     bool checkForExpansion(){
         return elementCount == tableSize;
@@ -20,11 +20,11 @@ class HashTable{
     }
 
     bool checkForShrink(){
-        return tableSize != 8 && elementCount == tableSize/4;
+        return tableSize != 2 && elementCount == tableSize/4;
     }
 
     void shrink(){
-        changeSize(tableSize\2, tableSize);
+        changeSize(tableSize/2, tableSize);
     }
 
     void changeSize(int size, int oldSize){

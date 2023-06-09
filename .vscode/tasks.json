@@ -8,6 +8,10 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
+                "AVLTree.h",
+                "HashTable.h",
+                "unionFind.h",
+                "utilesWet2.h",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

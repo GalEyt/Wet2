@@ -1,4 +1,4 @@
-#ifdef UNION_FIND
+#ifndef UNION_FIND
 #define UNION_FIND
 using namespace std;
 #include <cassert>
@@ -35,8 +35,9 @@ class Element{
         }
 
         void setNext(Element<T>* next){ //next should be root!!!
-            assert(group);
-            delete group;
+            if(group){
+                delete group;
+            }
             this->next = next;
             distanceFromRoot = next->distanceFromRoot+1;
         }
@@ -69,12 +70,12 @@ class UnionFind{
         int amount;
 
         void unionhelper(Element<T>* elem, Element<T>* root){
-            root->setNext(elem);
+            elem->setNext(root);
         }
 
     public:
         UnionFind(int amount, T* t){
-            this->elements = new Element<T>*[amount]; //check with gal.
+            this->elements = new Element<T>*[amount];
             for (int i=0; i<amount; i++){
                 this->elements[i] = new Element<T>(i, t[i], i);
             }
@@ -88,11 +89,10 @@ class UnionFind{
                 }
                 delete elements[i];
             }
-            delete[] elements; // maybe this line will be problematic.
         }
 
         int find(int elementID){
-            Element<T>* root = elements[i].getRoot();
+            Element<T>* root = elements[i]->getRoot();
             Element<T>* it = elements[i];
             while (!it->isRoot()){
                 it.setNext(root);

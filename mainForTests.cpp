@@ -1,9 +1,10 @@
 
-//#include "HashTable.h"
-//#include "UnionFind.h"
+#include "HashTable.h"
+#include "UnionFind.h"
 
 void unitest1(){
-    return;
+    HashTable<int, int>* table = new HashTable<int, int>();
+    table->addElement(55, 72);
 }
 
 
