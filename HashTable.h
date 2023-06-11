@@ -86,11 +86,11 @@ public:
             elementCount--;
         }
 
-        void getElement(Key key){
-            if (!table[hushTable(key)]){
+        T getElement(Key key){
+            if (!table[hushFunk(key)]){
                 throw NotFound();
             }
-            return table[hushTable(key)]->find(key);
+            return table[hushFunk(key)]->find(key)->getData();
         }
 
 };
