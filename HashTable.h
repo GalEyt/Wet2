@@ -28,8 +28,16 @@ private:
         changeSize(tableSize/2, tableSize);
     }
 
+    void arrayInit(AVLTree<T, Key>** array, int size){
+        for (int i = 0; i < size; i++)
+        {
+            array[i] = new AVLTree<T, Key>();
+        }
+    }
+
     void changeSize(int size, int oldSize){
         AVLTree<T, Key>* newTable[size];
+        arrayInit(newTable, size);
         tableSize = size;
         for (int i=0; i<oldSize; i++){
             while (table[i] && table[i]->getHeight() != -1){
@@ -37,8 +45,8 @@ private:
                 if (!newTable[hushFunk(rootID)]){
                     newTable[hushFunk(rootID)] = new AVLTree<T, Key>();
                 }
-                newTable[hushFunk(rootID)]->insert(table[i]->getData(), rootID);
-                table[i]->remove(rootID);
+                newTable[hushFunk(rootID)] = newTable[hushFunk(rootID)]->insert(table[i]->getData(), rootID);
+                table[i] = table[i]->remove(rootID);
             }
             //delete table[i];
         }
@@ -52,8 +60,8 @@ private:
 
 public:
         HashTable(){
-            table = new AVLTree<int, int>*(new AVLTree<int, int>());
-            table[1] = new AVLTree<int, int>();
+            table = new AVLTree<T, Key>*(new AVLTree<T, Key>());
+            table[1] = new AVLTree<T, Key>();
         }
 
         void addElement(T elem, Key key){
@@ -63,7 +71,7 @@ public:
             if (!table[hushFunk(key)]){
                 table[hushFunk(key)] = new AVLTree<T, Key>();
             }
-            table[hushFunk(key)]->insert(elem, key);
+            table[hushFunk(key)] = table[hushFunk(key)]->insert(elem, key);
             elementCount++;
         }
 
@@ -74,7 +82,7 @@ public:
             if (!table[hushFunk(key)]){
                 throw NotFound();
             }
-            table[hushFunk(key)]->remove(key);
+            table[hushFunk(key)] = table[hushFunk(key)]->remove(key);
             elementCount--;
         }
 
