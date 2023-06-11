@@ -7,12 +7,17 @@ using namespace std;
 class Group{
     private:
         int ID;
+        int groupCount;
         //more param here
     public:
-        Group(int id): ID(id){}
+        Group(int id): ID(id), groupCount(1){}
         int getID(){return ID;}
         void setID(int id){
             ID = id;
+        }
+        int getGroupCount(){return groupCount;}
+        void addGroupCount(int num){
+            groupCount += num;
         }
 };
 
@@ -36,6 +41,9 @@ class Element{
 
         void setNext(Element<T>* next){ //next should be root!!!
             if(group){
+                if next->isRoot(){
+                    next->group->addGroupCount(group->getGroupCount);
+                }
                 delete group;
             }
             this->next = next;
@@ -60,6 +68,8 @@ class Element{
         }
 
         Element<T>* getNext(){return next;}
+
+        int getID(){return ID;}
 };
 
 
@@ -95,16 +105,18 @@ class UnionFind{
             Element<T>* root = elements[elementID]->getRoot();
             Element<T>* it = elements[elementID];
             while (!it->isRoot()){
-                it.setNext(root);
+                it->setNext(root);
                 it = it->getNext();
             }
             return root->getGroup()->getID();
         }
 
         void unionGroups(int id1, int id2){
-            if (find(id1) == find(id2)){return;}
-            if (elements[id1]->getDistance() < elements[id2]->getDistance()){
-                unionhelper(elements[id2], elements[id1]->getRoot());
+            Element<T>* root1 = elements[id1]->getRoot();
+            Element<T>* root2 = elements[id2]->getRoot();
+            if (find(root1->getID()) == findroot2->getID())){return;}
+            if (root1->getGroup()->getGroupCount() < root2->getGroup()->getGroupCount()){
+                unionhelper(root2, elements[id1]->getRoot());
             }
             else{
                 unionhelper(elements[id1], elements[id2]->getRoot());

@@ -9,7 +9,7 @@ template <class Key, class T>
 class HashTable{
 private:
         int elementCount = 0;
-        AVLTree<T, Key>** table; //we need to fix it!!!!!!!!!
+        AVLTree<T, Key>** table;
         int tableSize = 2;
 
     bool checkForExpansion(){
