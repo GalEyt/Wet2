@@ -52,8 +52,8 @@ private:
 
 public:
         HashTable(){
-            table = new AVLTree<int, int>*(new AVLTree<int, int>());
-            table[1] = new AVLTree<int, int>();
+            table = new AVLTree<T, Key>*(new AVLTree<T, Key>());
+            table[1] = new AVLTree<T, Key>();
         }
 
         void addElement(T elem, Key key){
@@ -78,11 +78,11 @@ public:
             elementCount--;
         }
 
-        void getElement(Key key){
-            if (!table[hushTable(key)]){
+        T getElement(Key key){
+            if (!table[hushFunk(key)]){
                 throw NotFound();
             }
-            return table[hushTable(key)]->find(key);
+            return table[hushFunk(key)]->find(key)->getData();
         }
 
 };
