@@ -1,2 +1,6 @@
 .vscode/tasks.json
 mainForTests.exe
+mainForTests
+.vscode/launch.json
+.vscode/settings.json
+mainForTests.dSYM/Contents/Info.plist

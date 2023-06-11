@@ -41,7 +41,7 @@ class Element{
 
         void setNext(Element<T>* next){ //next should be root!!!
             if(group){
-                if next->isRoot(){
+                if (next->isRoot()){
                     next->group->addGroupCount(group->getGroupCount);
                 }
                 delete group;
@@ -76,7 +76,7 @@ class Element{
 template<class T>
 class UnionFind{
     private:
-        Element<T>* elements[];
+        Element<T>* elements;
         int amount;
 
         void unionhelper(Element<T>* elem, Element<T>* root){
@@ -116,10 +116,10 @@ class UnionFind{
             Element<T>* root2 = elements[id2]->getRoot();
             if (find(root1->getID()) == findroot2->getID())){return;}
             if (root1->getGroup()->getGroupCount() < root2->getGroup()->getGroupCount()){
-                unionhelper(root2, elements[id1]->getRoot());
+                unionhelper(root1, root2);
             }
             else{
-                unionhelper(elements[id1], elements[id2]->getRoot());
+                unionhelper(root1, root2);
             }
         }
 };

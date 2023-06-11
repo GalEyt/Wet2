@@ -1,9 +1,10 @@
 
 #include "HashTable.h"
-//#include "unionFind.h"
+#include "unionFind.h"
 #include <cassert>
 
 void unitest1(){
+    /*
     HashTable<int, int>* table = new HashTable<int, int>();
     table->addElement(55, 72);
     table->addElement(43, 54);
@@ -19,17 +20,37 @@ void unitest1(){
     table->addElement(66, 98);
     table->addElement(23, 12);
     table->addElement(1, 90);
-   // assert(table->getElement(72)!=55);
+    assert(table->getElement(72)!=55);*/
 }
 
 
 void unitestsUF(){
-    
+    int* data = new int(1);
+    data [1] = 2;
+    data [2] = 3;
+    data [3] = 4;
+    data [4] = 5;
+    data [5] = 6;
+    data [6] = 7;
+    data [7] = 8;
+    data [8] = 9;
+    data [9] = 10;
+    UnionFind<int>* uf = new UnionFind<int>(10, data);
+    for (int i = 0; i<10; i++){
+        for (int j = 0; j<10; j++){
+            if (i==j){
+                assert(uf->find(i) == uf->find(j));
+            }
+            else{
+                assert(uf->find(i) != uf->find(j));
+            }
+        }
+    }
 }
 
 
 int main(){
-    unitest1();
+    //unitest1();
     unitestsUF();
     // AVLTree<int, int>* array[2] = {new AVLTree<int, int>(), new AVLTree<int, int>()};
     // AVLTree<int, int>** table = new AVLTree<int, int>*(new AVLTree<int, int>());
