@@ -4,13 +4,17 @@
 #include "utilesWet2.h"
 #include "HashTable.h"
 #include "unionFind.h"
+#include "Customer.h"
+#include "Record.h"
+#include <memory>
 
 
 class RecordsCompany {
   private:
     int m_numOfCustomers;
-    HashTable<int, int> m_customers;
-    HashTable<int, int> m_Records;
+    int m_numOfRecrods;
+    HashTable<int, std::shared_ptr<Customer>> m_customers;
+    HashTable<int, std::shared_ptr<Record>> m_records;
 
   public:
     RecordsCompany();
