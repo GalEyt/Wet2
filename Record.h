@@ -20,8 +20,7 @@ public:
         return m_sales;
     }
 
-    void sold(){ //check copies before calling
-        m_copies--;
+    void sold(){
         m_sales++;
     }
 };
