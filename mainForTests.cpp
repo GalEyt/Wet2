@@ -1,6 +1,7 @@
 
 #include "HashTable.h"
-#include "unionFind.h"
+//#include "unionFind.h"
+#include "RankTree.h"
 #include <cassert>
 
 void unitest1(){
@@ -23,39 +24,45 @@ void unitest1(){
     assert(table->getElement(72)!=55);*/
 }
 
+void unittestRT(){
+    RankTree<int, int>* root = new RankTree<int,int>();
+    root = root->insert(1,1);
+    root = root->insert(1,2);
+    root = root->insert(1,3);
+    root = root->remove(2);
+    root = root->remove(1);
+    root = root->remove(3);
 
-void unitestsUF(){
-    int* data = new int(1);
-    data [1] = 2;
-    data [2] = 3;
-    data [3] = 4;
-    data [4] = 5;
-    data [5] = 6;
-    data [6] = 7;
-    data [7] = 8;
-    data [8] = 9;
-    data [9] = 10;
-    UnionFind<int>* uf = new UnionFind<int>(10, data);
-    for (int i = 0; i<10; i++){
-        for (int j = 0; j<10; j++){
-            if (i==j){
-                assert(uf->find(i) == uf->find(j));
-            }
-            else{
-                assert(uf->find(i) != uf->find(j));
-            }
-        }
-    }
 }
 
 
+// void unitestsUF(){
+//     int* data = new int(1);
+//     data [1] = 2;
+//     data [2] = 3;
+//     data [3] = 4;
+//     data [4] = 5;
+//     data [5] = 6;
+//     data [6] = 7;
+//     data [7] = 8;
+//     data [8] = 9;
+//     data [9] = 10;
+//     UnionFind<int>* uf = new UnionFind<int>(10, data);
+//     for (int i = 0; i<10; i++){
+//         for (int j = 0; j<10; j++){
+//             if (i==j){
+//                 assert(uf->find(i) == uf->find(j));
+//             }
+//             else{
+//                 assert(uf->find(i) != uf->find(j));
+//             }
+//         }
+//     }
+// }
+
+
 int main(){
-    //unitest1();
-    unitestsUF();
-    // AVLTree<int, int>* array[2] = {new AVLTree<int, int>(), new AVLTree<int, int>()};
-    // AVLTree<int, int>** table = new AVLTree<int, int>*(new AVLTree<int, int>());
-    // table[0]->insert(1,2);
-    // table[1] = new AVLTree<int, int>();
+    unittestRT();
 
     return 0;
 }

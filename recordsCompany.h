@@ -8,9 +8,9 @@
 
 class RecordsCompany {
   private:
-    int m_numOfCustomers = 0;
-    HashTable<int, int> m_customers();
-    HashTable<int, int> m_Records();
+    int m_numOfCustomers;
+    HashTable<int, int> m_customers;
+    HashTable<int, int> m_Records;
 
   public:
     RecordsCompany();
