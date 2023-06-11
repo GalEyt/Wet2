@@ -42,7 +42,7 @@ class Element{
         void setNext(Element<T>* next){ //next should be root!!!
             if(group){
                 if (next->isRoot()){
-                    next->group->addGroupCount(group->getGroupCount);
+                    next->group->addGroupCount(group->getGroupCount());
                 }
                 delete group;
             }
@@ -114,7 +114,8 @@ class UnionFind{
         void unionGroups(int id1, int id2){
             Element<T>* root1 = elements[id1]->getRoot();
             Element<T>* root2 = elements[id2]->getRoot();
-            if (find(root1->getID()) == findroot2->getID())){return;}
+            if (find(root1->getID()) == find(root2->getID())){return;}
+            
             if (root1->getGroup()->getGroupCount() < root2->getGroup()->getGroupCount()){
                 unionhelper(root1, root2);
             }
