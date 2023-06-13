@@ -35,7 +35,17 @@ void unitestsUF(){
     data [7] = 8;
     data [8] = 9;
     data [9] = 10;
-    UnionFind<int, 10>* uf = new UnionFind<int, 10>(data);
+    int* heights = new int(1);
+    heights [1] = 2;
+    heights [2] = 3;
+    heights [3] = 4;
+    heights [4] = 5;
+    heights [5] = 6;
+    heights [6] = 7;
+    heights [7] = 8;
+    heights [8] = 9;
+    heights [9] = 10;
+    UnionFind<int, 10>* uf = new UnionFind<int, 10>(data, heights);
     int id0 = uf->find(0);
     int id1 = uf->find(1);
     int id2 = uf->find(2);
@@ -57,15 +67,69 @@ void unitestsUF(){
         }
     }
 }
-
+void unitestsUF2(){
+    int* data = new int(1);
+    data [1] = 2;
+    data [2] = 3;
+    data [3] = 4;
+    data [4] = 5;
+    data [5] = 6;
+    data [6] = 7;
+    data [7] = 8;
+    data [8] = 9;
+    data [9] = 10;
+    int* heights = new int(1);
+    heights [1] = 2;
+    heights [2] = 3;
+    heights [3] = 4;
+    heights [4] = 5;
+    heights [5] = 6;
+    heights [6] = 7;
+    heights [7] = 8;
+    heights [8] = 9;
+    heights [9] = 10;
+    UnionFind<int, 10>* uf = new UnionFind<int, 10>(data, heights);
+    uf->unionGroups(2,4);
+    assert(uf->getHeight(2) == 5);
+    assert(uf->getHeight(4) == 0);
+    assert(uf->find(2) == uf->find(4));
+    uf->unionGroups(2,6);
+    assert(uf->getHeight(6) == 0);
+    assert(uf->getHeight(4) == 7);
+    assert(uf->getHeight(2) == 12);
+    assert(uf->find(2) == uf->find(4));
+    assert(uf->find(2) == uf->find(6));
+    assert(uf->find(4) == uf->find(6));
+    uf->unionGroups(8,9);
+    assert(uf->getHeight(8) == 10);
+    assert(uf->getHeight(9) == 0);
+    assert(uf->find(2) == uf->find(4));
+    assert(uf->find(2) == uf->find(6));
+    assert(uf->find(6) == uf->find(4));
+    assert(uf->find(2) != uf->find(8));
+    assert(uf->find(8) == uf->find(9));
+    uf->unionGroups(9,6);
+    assert(uf->getHeight(6) == 0);
+    assert(uf->getHeight(4) == 7);
+    assert(uf->getHeight(2) == 12);
+    assert(uf->getHeight(9) == 15);
+    assert(uf->getHeight(8) == 25);
+    assert(uf->find(2) == uf->find(4));
+    assert(uf->find(2) == uf->find(6));
+    assert(uf->find(6) == uf->find(4));
+    assert(uf->find(2) == uf->find(8));
+    assert(uf->find(8) == uf->find(9));
+    assert(uf->find(6) == uf->find(9));
+    
+}
 
 int main(){
     //unitest1();
-    unitestsUF();
+    unitestsUF2();
     // AVLTree<int, int>* array[2] = {new AVLTree<int, int>(), new AVLTree<int, int>()};
     // AVLTree<int, int>** table = new AVLTree<int, int>*(new AVLTree<int, int>());
     // table[0]->insert(1,2);
     // table[1] = new AVLTree<int, int>();
-
+    
     return 0;
 }

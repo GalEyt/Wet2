@@ -121,6 +121,11 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id)
     return StatusType::SUCCESS;
 }
 
+StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double amount)
+{
+    return StatusType();
+}
+
 Output_t<double> RecordsCompany::getExpenses(int c_id)
 {
     if (c_id < 0)
