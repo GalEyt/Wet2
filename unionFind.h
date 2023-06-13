@@ -97,7 +97,7 @@ public:
         }
         return it;
     }
-    rootPair<Element<T>> getRootAndR()
+    rootPair<Element<T> > getRootAndR()
     {
         Element<T> *it = this;
         int rSum = 0;
@@ -106,7 +106,7 @@ public:
             rSum+= it->getR();
             it = it->next;
         }
-        return rootPair<Element<T>>(it, rSum);
+        return rootPair<Element<T> >(it, rSum);
     }
 
     int getDistance()
@@ -129,7 +129,7 @@ template <class T, int N>
 class UnionFind
 {
 private:
-    std::shared_ptr<Element<T>> elements[N];
+    std::shared_ptr<Element<T> > elements[N];
 
     void unionhelper(Element<T> *elem, Element<T> *root)
     {
@@ -141,7 +141,7 @@ public:
     {
         for (int i = 0; i < N; i++)
         {
-            elements[i] = std::shared_ptr<Element<T>>(new Element<T>(i, t[i], i, heights[i]));
+            elements[i] = std::shared_ptr<Element<T> >(new Element<T>(i, t[i], i, heights[i]));
         }
     }
 
@@ -152,7 +152,7 @@ public:
 
     int find(int elementID)
     {
-        rootPair<Element<T>> root = elements[elementID]->getRootAndR();
+        rootPair<Element<T> > root = elements[elementID]->getRootAndR();
         Element<T> *it = elements[elementID].get();
         Element<T> *tmp;
         int rTmp;
