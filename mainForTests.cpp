@@ -1,5 +1,5 @@
 
-#include "HashTable.h"
+//#include "HashTable.h"
 #include "unionFind.h"
 #include <cassert>
 
@@ -35,7 +35,17 @@ void unitestsUF(){
     data [7] = 8;
     data [8] = 9;
     data [9] = 10;
-    UnionFind<int>* uf = new UnionFind<int>(10, data);
+    UnionFind<int, 10>* uf = new UnionFind<int, 10>(10, data);
+    int id0 = uf->find(0);
+    int id1 = uf->find(1);
+    int id2 = uf->find(2);
+    int id3 = uf->find(3);
+    int id4 = uf->find(4);
+    int id5 = uf->find(5);
+    int id6 = uf->find(6);
+    int id7 = uf->find(7);
+    int id8 = uf->find(8);
+    int id9 = uf->find(9);
     for (int i = 0; i<10; i++){
         for (int j = 0; j<10; j++){
             if (i==j){
