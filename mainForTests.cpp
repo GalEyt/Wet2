@@ -35,7 +35,7 @@ void unitestsUF(){
     data [7] = 8;
     data [8] = 9;
     data [9] = 10;
-    UnionFind<int, 10>* uf = new UnionFind<int, 10>(10, data);
+    UnionFind<int, 10>* uf = new UnionFind<int, 10>(data);
     int id0 = uf->find(0);
     int id1 = uf->find(1);
     int id2 = uf->find(2);

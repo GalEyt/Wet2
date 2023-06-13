@@ -4,3 +4,4 @@ mainForTests
 .vscode/launch.json
 .vscode/settings.json
 mainForTests.dSYM/Contents/Info.plist
+mainForTests.exe

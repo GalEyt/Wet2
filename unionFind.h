@@ -76,18 +76,16 @@ template<class T, int N>
 class UnionFind{
     private:
         std::shared_ptr<Element<T> > elements[N];
-        int amount;
 
         void unionhelper(std::shared_ptr<Element<T> > elem, std::shared_ptr<Element<T> > root){
             elem->setNext(root);
         }
 
     public:
-        UnionFind(int amount, T* t){
-            for (int i=0; i<amount; i++){
+        UnionFind(T* t){
+            for (int i=0; i<N; i++){
                 elements[i] = std::shared_ptr<Element<T> >(new Element<T>(i, t[i], i));
             }
-            this->amount = amount;
         }
 
         ~UnionFind(){
