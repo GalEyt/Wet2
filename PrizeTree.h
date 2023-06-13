@@ -16,24 +16,26 @@ class NotFound
 };
 
 template <class T, class ID>
-class AVLTree
+class PrizeTree
 {
 private:
-	AVLTree<T, ID> *right = nullptr;
-	AVLTree<T, ID> *left = nullptr;
-	AVLTree<T, ID> *parent = nullptr;
+	PrizeTree<T, ID> *right = nullptr;
+	PrizeTree<T, ID> *left = nullptr;
+	PrizeTree<T, ID> *parent = nullptr;
 	int height = -1;
 	int balance = 0;
+    int extra = 0;
 	T m_data;
 	ID m_id;
 
-	void swap(AVLTree<T, ID> *other);
+	void swap(PrizeTree<T, ID> *other);
 	void swapFatherRightSon();
-	AVLTree<T, ID> *getMostLeft();
+	PrizeTree<T, ID> *getMostLeft();
 	void updateHeightBalance();
 	void removeRoll();
 	void insertRoll();
-	void updateParent(AVLTree<T, ID> *newParent);
+	void updateParent(PrizeTree<T, ID> *newParent);
+    int getSum(PrizeTree<T, ID> *node);
 	void rollLL();
 	void rollLR();
 	void rollRR();
@@ -54,7 +56,7 @@ private:
 		return false;
 	}
 
-	AVLTree<T, ID> *removeLeaf()
+	PrizeTree<T, ID> *removeLeaf()
 	{
 		if (!parent)
 		{
@@ -72,14 +74,14 @@ private:
 				parent->right = nullptr;
 			}
 		}
-		AVLTree<T, ID> *tmpParent = parent;
+		PrizeTree<T, ID> *tmpParent = parent;
 		delete this;
 		return tmpParent;
 	}
 
-	AVLTree<T, ID> *removeOnlySon()
+	PrizeTree<T, ID> *removeOnlySon()
 	{
-		AVLTree<T, ID> *tmp;
+		PrizeTree<T, ID> *tmp;
 		if (!parent)
 		{
 			if (right)
@@ -128,9 +130,9 @@ private:
 		return tmp;
 	}
 
-	AVLTree<T, ID> *removeTwoSons()
+	PrizeTree<T, ID> *removeTwoSons()
 	{
-		AVLTree<T, ID> *toSwitch = right->getMostLeft();
+		PrizeTree<T, ID> *toSwitch = right->getMostLeft();
 		swap(toSwitch);
 		if (isLeaf())
 		{
@@ -139,16 +141,16 @@ private:
 		return removeOnlySon();
 	}
 
-	AVLTree<T, ID> *removeHelper(ID id)
+	PrizeTree<T, ID> *removeHelper(ID id)
 	{
-		AVLTree<T, ID> *toRoll;
-		AVLTree<T, ID> *toDelete = find(id);
+		PrizeTree<T, ID> *toRoll;
+		PrizeTree<T, ID> *toDelete = find(id);
 		if (toDelete->isLeaf())
 		{
 			toRoll = toDelete->removeLeaf();
 			if (!toRoll)
 			{
-				return new AVLTree<T, ID>;
+				return new PrizeTree<T, ID>;
 			}
 		}
 		else if (toDelete->right && toDelete->left)
@@ -164,12 +166,13 @@ private:
 	}
 
 public:
-	AVLTree() : right(nullptr), left(nullptr), parent(nullptr), height(-1), balance(0), m_data(), m_id() {}
-	AVLTree(AVLTree<T, ID> *parent, T data, ID id) : right(nullptr), left(nullptr), parent(parent), height(0), balance(0), m_data(data), m_id(id) {}
-	~AVLTree() = default;
-	void deleteTree(AVLTree<T, ID> *root);
-	AVLTree<T, ID> *find(ID id);
-	AVLTree<T, ID> *getRoot()
+	PrizeTree() : right(nullptr), left(nullptr), parent(nullptr), height(-1), balance(0), m_data(), m_id(), extra(0) {}
+	PrizeTree(PrizeTree<T, ID> *parent, T data, ID id) : right(nullptr), left(nullptr), parent(parent), height(0), balance(0), m_data(data), m_id(id), extra(0) {}
+	~PrizeTree() = default;
+	void deleteTree(PrizeTree<T, ID> *root);
+	PrizeTree<T, ID> *find(ID id);
+    void addPrize(int prize, ID id);
+	PrizeTree<T, ID> *getRoot()
 	{
 
 		if (!parent || height == -1)
@@ -178,16 +181,16 @@ public:
 		}
 		return parent->getRoot();
 	}
-	AVLTree<T, ID> *getRight() { return right; }
-	AVLTree<T, ID> *getLeft() { return left; }
-	AVLTree<T, ID> *getParent() { return parent; }
+	PrizeTree<T, ID> *getRight() { return right; }
+	PrizeTree<T, ID> *getLeft() { return left; }
+	PrizeTree<T, ID> *getParent() { return parent; }
 	T getData() { return m_data; }
 	ID getID() { return m_id; }
 	int getHeight() { return height; }
 
 	// Function to print binary tree in 2D
 	// It does reverse inorder traversal
-	void print2DUtil(AVLTree<int, int> *root, int space)
+	void print2DUtil(PrizeTree<int, int> *root, int space)
 	{
 		// Base case
 		if (root == NULL)
@@ -211,7 +214,7 @@ public:
 	}
 
 	// Wrapper over print2DUtil()
-	void print2D(AVLTree<int, int> *root)
+	void print2D(PrizeTree<int, int> *root)
 	{
 		// Pass initial space count as 0
 		print2DUtil(root, 0);
@@ -247,7 +250,7 @@ public:
 		}
 	}
 
-	AVLTree<T, ID> *insert(T data, ID id)
+	PrizeTree<T, ID> *insert(T data, ID id)
 	{
 		insertHelper(data, id);
 		return getRoot();
@@ -266,7 +269,8 @@ public:
 		{
 			if (!right)
 			{
-				right = new AVLTree<T, ID>(this, data, id);
+				right = new PrizeTree<T, ID>(this, data, id);
+                right->extra = -1 * right->getSum();
 				right->insertRoll();
 			}
 			else
@@ -282,7 +286,8 @@ public:
 		{
 			if (!left)
 			{
-				left = new AVLTree<T, ID>(this, data, id);
+				left = new PrizeTree<T, ID>(this, data, id);
+                left->extra = -1 * left->getSum();
 				left->insertRoll();
 			}
 			else
@@ -292,15 +297,15 @@ public:
 		}
 	}
 
-	AVLTree<T, ID> *remove(ID id)
+	PrizeTree<T, ID> *remove(ID id)
 	{
-		AVLTree<T, ID> *tmp = removeHelper(id);
+		PrizeTree<T, ID> *tmp = removeHelper(id);
 		return tmp->getRoot();
 	}
 };
 
 template <class T, class ID>
-AVLTree<T, ID> *AVLTree<T, ID>::find(ID id)
+PrizeTree<T, ID> *PrizeTree<T, ID>::find(ID id)
 {
 	if (height == -1)
 	{
@@ -326,12 +331,18 @@ AVLTree<T, ID> *AVLTree<T, ID>::find(ID id)
 }
 
 template <class T, class ID>
-void AVLTree<T, ID>::swapFatherRightSon()
+inline void PrizeTree<T, ID>::addPrize(int prize, ID id)
 {
-	AVLTree<T, ID> *son = right;
-	AVLTree<T, ID> *sonRight = son->right;
-	AVLTree<T, ID> *tmpLeft = left;
-	AVLTree<T, ID> *tmpParent = parent;
+    while()
+}
+
+template <class T, class ID>
+void PrizeTree<T, ID>::swapFatherRightSon()
+{
+	PrizeTree<T, ID> *son = right;
+	PrizeTree<T, ID> *sonRight = son->right;
+	PrizeTree<T, ID> *tmpLeft = left;
+	PrizeTree<T, ID> *tmpParent = parent;
 	son->updateParent(tmpParent);
 	parent = son;
 	son->right = this;
@@ -348,18 +359,18 @@ void AVLTree<T, ID>::swapFatherRightSon()
 }
 
 template <class T, class ID>
-void AVLTree<T, ID>::swap(AVLTree<T, ID> *other)
+void PrizeTree<T, ID>::swap(PrizeTree<T, ID> *other)
 {
 	if (right == other)
 	{
 		swapFatherRightSon();
 		return;
 	}
-	AVLTree<T, ID> *tmpLeftA = left;
-	AVLTree<T, ID> *tmpRightA = right;
-	AVLTree<T, ID> *tmpParentA = parent;
-	AVLTree<T, ID> *tmpRightB = other->right;
-	AVLTree<T, ID> *tmpParentB = other->parent;
+	PrizeTree<T, ID> *tmpLeftA = left;
+	PrizeTree<T, ID> *tmpRightA = right;
+	PrizeTree<T, ID> *tmpParentA = parent;
+	PrizeTree<T, ID> *tmpRightB = other->right;
+	PrizeTree<T, ID> *tmpParentB = other->parent;
 	left = other->left; // should be null
 	right = tmpRightB;
 	if (tmpRightB)
@@ -375,17 +386,17 @@ void AVLTree<T, ID>::swap(AVLTree<T, ID> *other)
 }
 
 template <class T, class ID>
-int AVLTree<T, ID>::max(int num1, int num2)
+int PrizeTree<T, ID>::max(int num1, int num2)
 {
 	return num1 > num2 ? num1 : num2;
 }
 
 template <class T, class ID>
-void AVLTree<T, ID>::updateHeightBalance()
+void PrizeTree<T, ID>::updateHeightBalance()
 {
 	if (left && right)
 	{
-		height = AVLTree::max(left->height, right->height) + 1;
+		height = PrizeTree::max(left->height, right->height) + 1;
 		balance = left->height - right->height;
 	}
 	else if (left)
@@ -406,7 +417,7 @@ void AVLTree<T, ID>::updateHeightBalance()
 }
 
 template <class T, class ID>
-void AVLTree<T, ID>::insertRoll()
+void PrizeTree<T, ID>::insertRoll()
 {
 	updateHeightBalance();
 	if (balance > -2 && balance < 2)
@@ -443,12 +454,21 @@ void AVLTree<T, ID>::insertRoll()
 	}
 }
 
+
+
 template <class T, class ID>
-void AVLTree<T, ID>::rollLL()
+void PrizeTree<T, ID>::rollLL()
 {
-	AVLTree<T, ID> *A = left;
-	AVLTree<T, ID> *parentB = parent;
-	AVLTree<T, ID> *AR = A->right;
+	PrizeTree<T, ID> *A = left;
+	PrizeTree<T, ID> *parentB = parent;
+	PrizeTree<T, ID> *AR = A->right;
+    int sum = parentB->getSum();
+    int realExtraB = sum + this->extra;
+    int realExtraA = realExtraB + A->extra;
+    int realExtraAR = realExtraA + AR->extra;
+    A->extra = realExtraA - sum;
+    this->extra = realExtraB - sum - A->extra;
+    AR->extra = realExtraAR - sum - A->extra - this->extra; 
 	A->updateParent(parentB);
 	updateParent(A);
 	if (AR)
@@ -464,11 +484,18 @@ void AVLTree<T, ID>::rollLL()
 }
 
 template <class T, class ID>
-void AVLTree<T, ID>::rollRR()
+void PrizeTree<T, ID>::rollRR()
 {
-	AVLTree<T, ID> *A = right;
-	AVLTree<T, ID> *parentB = parent;
-	AVLTree<T, ID> *AL = A->left;
+	PrizeTree<T, ID> *A = right;
+	PrizeTree<T, ID> *parentB = parent;
+	PrizeTree<T, ID> *AL = A->left;
+    int sum = parentB->getSum();
+    int realExtraB = sum + this->extra;
+    int realExtraA = realExtraB + A->extra;
+    int realExtraAL = realExtraA + AL->extra;
+    A->extra = realExtraA - sum;
+    this->extra = realExtraB - sum - A->extra;
+    AL->extra = realExtraAL - sum - A->extra - this->extra; 
 	A->updateParent(parentB);
 	updateParent(A);
 	if (AL)
@@ -484,21 +511,21 @@ void AVLTree<T, ID>::rollRR()
 }
 
 template <class T, class ID>
-void AVLTree<T, ID>::rollLR()
+void PrizeTree<T, ID>::rollLR()
 {
 	left->rollRR();
 	rollLL();
 }
 
 template <class T, class ID>
-void AVLTree<T, ID>::rollRL()
+void PrizeTree<T, ID>::rollRL()
 {
 	right->rollLL();
 	rollRR();
 }
 
 template <class T, class ID>
-void AVLTree<T, ID>::removeRoll()
+void PrizeTree<T, ID>::removeRoll()
 {
 	updateHeightBalance();
 	if (balance == 2)
@@ -530,7 +557,7 @@ void AVLTree<T, ID>::removeRoll()
 }
 
 template <class T, class ID>
-void AVLTree<T, ID>::deleteTree(AVLTree<T, ID> *root)
+void PrizeTree<T, ID>::deleteTree(PrizeTree<T, ID> *root)
 {
 	if (!root)
 	{
@@ -566,7 +593,7 @@ void AVLTree<T, ID>::deleteTree(AVLTree<T, ID> *root)
 }
 
 template <class T, class ID>
-AVLTree<T, ID> *AVLTree<T, ID>::getMostLeft()
+PrizeTree<T, ID> *PrizeTree<T, ID>::getMostLeft()
 {
 	if (!left)
 	{
@@ -576,7 +603,7 @@ AVLTree<T, ID> *AVLTree<T, ID>::getMostLeft()
 }
 
 template <class T, class ID>
-void AVLTree<T, ID>::updateParent(AVLTree<T, ID> *newParent)
+void PrizeTree<T, ID>::updateParent(PrizeTree<T, ID> *newParent)
 {
 	parent = newParent;
 	if (!newParent)
@@ -591,6 +618,17 @@ void AVLTree<T, ID>::updateParent(AVLTree<T, ID> *newParent)
 	{
 		newParent->right = this;
 	}
+}
+
+template <class T, class ID>
+inline int PrizeTree<T, ID>::getSum(PrizeTree<T, ID> *node)
+{
+    int tmp = 0;
+    while(node){
+        tmp+= node->extra;
+        node = node->parent;
+    }
+    return tmp;
 }
 
 #endif // PRIZE_TREE
