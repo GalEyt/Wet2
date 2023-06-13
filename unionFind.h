@@ -145,11 +145,6 @@ public:
         }
     }
 
-    ~UnionFind()
-    {
-        delete[] elements;
-    }
-
     int find(int elementID)
     {
         rootPair<Element<T> > root = elements[elementID]->getRootAndR();
