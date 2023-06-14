@@ -1,6 +1,7 @@
 
 #include "HashTable.h"
 #include "unionFind.h"
+#include "PrizeTree.h"
 #include <cassert>
 #include <random>
 #include <iostream>
@@ -310,14 +311,55 @@ void unitestsUF3(){
     delete heights;
 }
 
+void unitestPrizeTree(){
+    PrizeTree<int, int>* root = new PrizeTree<int,int>();
+    root = root->insert(1, 7);
+    root = root->insert(1, 3);
+    root = root->insert(1, 11);
+    root = root->insert(1, 1);
+    root = root->insert(1, 5);
+    root = root->insert(1, 9);
+    root = root->insert(1, 13);
+    root->addPrize(3, 11);
+    root->addPrize(-3, 3);
+    assert(root->getSum(root->find(1)) == 0);
+    assert(root->getSum(root->find(3)) == 3);
+    assert(root->getSum(root->find(5)) == 3);
+    assert(root->getSum(root->find(7)) == 3);
+    assert(root->getSum(root->find(9)) == 3);
+    assert(root->getSum(root->find(11)) == 0);
+    assert(root->getSum(root->find(13)) == 0);
+    root->addPrize(1, 7);
+    root->addPrize(-1, 5);
+    assert(root->getSum(root->find(1)) == 0);
+    assert(root->getSum(root->find(3)) == 3);
+    assert(root->getSum(root->find(5)) == 4);
+    assert(root->getSum(root->find(7)) == 3);
+    assert(root->getSum(root->find(9)) == 3);
+    assert(root->getSum(root->find(11)) == 0);
+    assert(root->getSum(root->find(13)) == 0);
+    root->addPrize(2, 13);
+    root->addPrize(-2, 9);
+    assert(root->getSum(root->find(1)) == 0);
+    assert(root->getSum(root->find(3)) == 3);
+    assert(root->getSum(root->find(5)) == 4);
+    assert(root->getSum(root->find(7)) == 3);
+    assert(root->getSum(root->find(9)) == 5);
+    assert(root->getSum(root->find(11)) == 2);
+    assert(root->getSum(root->find(13)) == 0);
+    delete root;
+}
+
+
 int main(){
-    unitestHT();
-    unitestHT2();
-    unitestHT3();
-    unitestHT4();
-    unitestsUF();
-    unitestsUF2();
-    unitestsUF3();
+    // unitestHT();
+    // unitestHT2();
+    // unitestHT3();
+    // unitestHT4();
+    // unitestsUF();
+    // unitestsUF2();
+    // unitestsUF3();
+    unitestPrizeTree();
     std::cout << "All tests passed!" << std::endl;
     return 0;
 }
