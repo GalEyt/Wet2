@@ -3,17 +3,9 @@
 #ifndef PRIZE_TREE
 #define PRIZE_TREE
 #include <iostream>
+#include "AVLTree.h"
 using namespace std;
 #define COUNT 10
-class Exist
-{
-};
-class EmptyTree
-{
-};
-class NotFound
-{
-};
 
 template <class T, class ID>
 class PrizeTree
@@ -35,12 +27,13 @@ private:
 	void removeRoll();
 	void insertRoll();
 	void updateParent(PrizeTree<T, ID> *newParent);
-    int getSum(PrizeTree<T, ID> *node);
+    
 	void rollLL();
 	void rollLR();
 	void rollRR();
 	void rollRL();
 	int max(int num1, int num2);
+	ID getClosest(ID id);
 	bool isLeaf()
 	{
 		return (!right && !left);
@@ -187,6 +180,7 @@ public:
 	T getData() { return m_data; }
 	ID getID() { return m_id; }
 	int getHeight() { return height; }
+	int getSum(PrizeTree<T, ID> *node);
 
 	// Function to print binary tree in 2D
 	// It does reverse inorder traversal
@@ -270,7 +264,7 @@ public:
 			if (!right)
 			{
 				right = new PrizeTree<T, ID>(this, data, id);
-                right->extra = -1 * right->getSum();
+                right->extra = -1 * right->getSum(right);
 				right->insertRoll();
 			}
 			else
@@ -287,7 +281,7 @@ public:
 			if (!left)
 			{
 				left = new PrizeTree<T, ID>(this, data, id);
-                left->extra = -1 * left->getSum();
+                left->extra = -1 * left->getSum(left);
 				left->insertRoll();
 			}
 			else
@@ -330,10 +324,41 @@ PrizeTree<T, ID> *PrizeTree<T, ID>::find(ID id)
 	return left->find(id);
 }
 
+
+
+
 template <class T, class ID>
 inline void PrizeTree<T, ID>::addPrize(int prize, ID id)
 {
-    while()
+	bool rightS = false;
+	PrizeTree<T, ID>* it = this;
+    while(it){
+		if (it->m_id < id){
+			if(!rightS){
+				it->extra+= prize;
+				rightS=true;
+			}
+			it = it->right;
+			continue;
+		}
+		if(it->m_id > id){
+			if(rightS){
+				it->extra-=prize;
+				rightS = false;
+			}
+			it = it->left;
+			continue;
+		}
+		if(rightS){
+			it->extra-=prize;
+		}
+		if(it->left){
+			it->left->extra+= prize;
+			
+		}
+		
+		break;
+	}
 }
 
 template <class T, class ID>
@@ -454,15 +479,13 @@ void PrizeTree<T, ID>::insertRoll()
 	}
 }
 
-
-
 template <class T, class ID>
 void PrizeTree<T, ID>::rollLL()
 {
 	PrizeTree<T, ID> *A = left;
 	PrizeTree<T, ID> *parentB = parent;
 	PrizeTree<T, ID> *AR = A->right;
-    int sum = parentB->getSum();
+    int sum = parentB->getSum(parentB);
     int realExtraB = sum + this->extra;
     int realExtraA = realExtraB + A->extra;
     int realExtraAR = realExtraA + AR->extra;
@@ -489,7 +512,7 @@ void PrizeTree<T, ID>::rollRR()
 	PrizeTree<T, ID> *A = right;
 	PrizeTree<T, ID> *parentB = parent;
 	PrizeTree<T, ID> *AL = A->left;
-    int sum = parentB->getSum();
+    int sum = parentB->getSum(parentB);
     int realExtraB = sum + this->extra;
     int realExtraA = realExtraB + A->extra;
     int realExtraAL = realExtraA + AL->extra;
