@@ -207,6 +207,14 @@ public:
         }
     }
 
+    void update(T *t, int amount){
+        delete[] elements;
+        elements = (Element<T>**)malloc(sizeof(Element<T>**)*amount);
+        for (int i = 0; i < amount; i++)
+        {
+            elements[i] = new Element<T>(i, t[i], i, t[i]);
+        }
+    }
 
 };
 

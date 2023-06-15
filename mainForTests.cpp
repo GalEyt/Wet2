@@ -481,6 +481,7 @@ void unitestRecordCompany(){
     assert(phone.ans() == 94069);
     int arr[40] = {19, 16, 5, 10, 5, 2, 9, 5, 8, 9, 15, 8, 8, 8, 11, 14, 4, 19, 9, 16, 2, 11, 3, 6, 7, 4, 17, 10, 11, 4, 17, 12, 7, 3, 6, 4, 5, 1, 5, 4};
     rc->newMonth(arr, 40);
+    rc->putOnTop(3, 28);
 }
 
 int main(){
