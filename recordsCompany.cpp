@@ -1,16 +1,84 @@
 #include "recordsCompany.h"
 
-RecordsCompany::RecordsCompany()
+void RecordsCompany::updateCustomers(AVLTree<std::shared_ptr<Customer>, int> * root)
+{
+        if(root->getHeight() == -1)
+        {
+            return;
+        }
+    	if (root->getLeft())
+		{
+			updateCustomers(root->getLeft());
+        }
+        root->getData()->newMonth();
+        if(root->getRight())
+        {
+            updateCustomers(root->getRight());
+        }
+}
+
+void RecordsCompany::updateCustomers(PrizeTree<std::shared_ptr<Customer>, int> * root)
+{
+        if(root->getHeight() == -1)
+        {
+            return;
+        }
+    	if (root->getLeft())
+		{
+			updateCustomers(root->getLeft());
+        }
+        root->setExtra(0);
+        if(root->getRight())
+        {
+            updateCustomers(root->getRight());
+        }
+}
+
+RecordsCompany::RecordsCompany() : m_numOfCustomers(0), m_numOfRecrods(0), m_customers(HashTable<int, std::shared_ptr<Customer>>()), m_records(HashTable<int, std::shared_ptr<Record>>()), recordStacks(UnionFind<int>()), m_prizeTree(new PrizeTree<std::shared_ptr<Customer>, int>())
 {
 }
 
 RecordsCompany::~RecordsCompany()
 {
+    delete m_prizeTree;
 }
 
 StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
 {
-    return StatusType();
+    if (records_stocks == nullptr || number_of_records <= 0)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    try
+    {
+        m_numOfRecrods = number_of_records;
+        m_records = HashTable<int, std::shared_ptr<Record>>();
+        int heights[number_of_records];
+        for (int i = 0; i < number_of_records; i++)
+        {
+            heights[i] = records_stocks[i];
+            m_records.addElement(shared_ptr<Record>(new Record(i, records_stocks[i])), i);
+        }
+        recordStacks = UnionFind<int>(records_stocks, heights, number_of_records);
+        AVLTree<std::shared_ptr<Customer>, int>** cust_table = m_customers.getTable();
+
+        for (int i = 0; i < m_customers.getSize(); i++)
+        {
+            updateCustomers(cust_table[i]);
+        }
+        updateCustomers(m_prizeTree);
+
+        
+    }
+    catch (std::bad_alloc const &)
+    {
+        return StatusType::ALLOCATION_ERROR;
+    }
+    catch (Exist)
+    {
+        return StatusType::ALREADY_EXISTS;
+    }
+    return StatusType::SUCCESS;
 }
 
 StatusType RecordsCompany::addCostumer(int c_id, int phone)
@@ -67,6 +135,7 @@ StatusType RecordsCompany::makeMember(int c_id)
             return StatusType::ALREADY_EXISTS;
         }
         ptr->makeMember();
+        m_prizeTree->insert(ptr, ptr->getID());
     }
     catch (NotFound)
     {
@@ -123,7 +192,20 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id)
 
 StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double amount)
 {
-    return StatusType();
+    if (c_id1 < 0 || c_id2 < 0 || amount <= 0 || c_id1 >= c_id2)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    try
+    {
+        m_prizeTree->addPrize(amount, c_id2);
+        m_prizeTree->addPrize(-1 * amount, c_id1);
+    }
+    catch (std::bad_alloc const &)
+    {
+        return StatusType::ALLOCATION_ERROR;
+    }
+    return StatusType::SUCCESS;
 }
 
 Output_t<double> RecordsCompany::getExpenses(int c_id)
@@ -135,7 +217,10 @@ Output_t<double> RecordsCompany::getExpenses(int c_id)
     double expences;
     try
     {
-        expences = m_customers.getElement(c_id)->getExpences();
+        if(!m_customers.getElement(c_id)->isMember()){
+            return Output_t<double>(0);
+        }
+        expences = m_customers.getElement(c_id)->getExpences() - m_prizeTree->getSum(m_prizeTree->find(c_id));
     }
     catch (NotFound)
     {
@@ -146,10 +231,39 @@ Output_t<double> RecordsCompany::getExpenses(int c_id)
 
 StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
 {
-    return StatusType();
+    if (r_id1 < 0 || r_id2 < 0 || r_id1 >= m_numOfRecrods || r_id2 >= m_numOfRecrods)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    try
+    {
+        recordStacks.unionGroups(r_id1, r_id2);
+    }
+    catch (std::bad_alloc const &)
+    {
+        return StatusType::ALLOCATION_ERROR;
+    }
+    catch (NotFound)
+    {
+        return StatusType::DOESNT_EXISTS;
+    }
+    return StatusType::SUCCESS;
 }
 
 StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight)
 {
-    return StatusType();
+    if (r_id < 0 || r_id >= m_numOfRecrods)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    try
+    {
+        *column = recordStacks.find(r_id);
+        *hight = recordStacks.getHeight(r_id);
+    }
+    catch (NotFound)
+    {
+        return StatusType::DOESNT_EXISTS;
+    }
+    return StatusType::SUCCESS;
 }

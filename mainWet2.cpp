@@ -15,7 +15,7 @@ void print(string cmd, Output_t<T> res);
 
 vector<int> getRecordsStocks();
 
-/*
+
 int main()
 {
   string op;
@@ -43,7 +43,6 @@ int main()
     {
         int c_id;
         cin >> c_id;
-        s
         print(op, test_obj->getPhone(c_id));
     }
     else if(!op.compare("makeMember"))
@@ -116,7 +115,7 @@ int main()
   }
   delete test_obj;
   return 0;
-}*/
+}
 
 
 static const char *StatusTypeStr[] =

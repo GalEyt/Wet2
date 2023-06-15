@@ -181,7 +181,7 @@ public:
 	ID getID() { return m_id; }
 	int getHeight() { return height; }
 	int getSum(PrizeTree<T, ID> *node);
-
+	void setExtra(int extra) { this->extra = extra; }
 	// Function to print binary tree in 2D
 	// It does reverse inorder traversal
 	void print2DUtil(PrizeTree<int, int> *root, int space)

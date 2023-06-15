@@ -2,6 +2,7 @@
 #include "HashTable.h"
 #include "unionFind.h"
 #include "PrizeTree.h"
+#include "recordsCompany.h"
 #include <cassert>
 #include <random>
 #include <iostream>
@@ -185,7 +186,7 @@ void unitestsUF(){
     heights [7] = 8;
     heights [8] = 9;
     heights [9] = 10;
-    UnionFind<int, 10>* uf = new UnionFind<int, 10>(data, heights);
+    UnionFind<int>* uf = new UnionFind<int>(data, heights, 10);
     int id0 = uf->find(0);
     int id1 = uf->find(1);
     int id2 = uf->find(2);
@@ -231,7 +232,7 @@ void unitestsUF2(){
     heights [7] = 8;
     heights [8] = 9;
     heights [9] = 10;
-    UnionFind<int, 10>* uf = new UnionFind<int, 10>(data, heights);
+    UnionFind<int>* uf = new UnionFind<int>(data, heights, 10);
     uf->unionGroups(2,4);
     assert(uf->getHeight(2) == 5);
     assert(uf->getHeight(4) == 0);
@@ -289,7 +290,7 @@ void unitestsUF3(){
     heights [7] = 8;
     heights [8] = 9;
     heights [9] = 10;
-    UnionFind<int, 10> uf(data, heights);
+    UnionFind<int> uf(data, heights, 10);
     uf.unionGroups(2,4);
     uf.unionGroups(2,6);
     uf.unionGroups(8,9);
@@ -472,17 +473,21 @@ void unitestPrizeTree3(){
     assert(root->getSum(root->find(7)) == 8);
 }
 
-int main(){
-    // unitestHT();
-    // unitestHT2();
-    // unitestHT3();
-    // unitestHT4();
-    // unitestsUF();
-    // unitestsUF2();
-    // unitestsUF3();
-    // unitestPrizeTree();
-    // unitestPrizeTree2();
-    unitestPrizeTree3();
-    std::cout << "All tests passed!" << std::endl;
-    return 0;
+void unitestRecordCompany(){
+
 }
+
+// int main(){
+//     unitestHT();
+//     unitestHT2();
+//     unitestHT3();
+//     unitestHT4();
+//     unitestsUF();
+//     unitestsUF2();
+//     unitestsUF3();
+//     unitestPrizeTree();
+//     unitestPrizeTree2();
+//     unitestPrizeTree3();
+//     std::cout << "All tests passed!" << std::endl;
+//     return 0;
+// }

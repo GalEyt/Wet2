@@ -7,7 +7,7 @@ private:
     int m_copies = 0;
     int m_sales = 0;
 public:
-    Record(int id) : m_id(id){}
+    Record(int id, int copies) : m_id(id), m_copies(copies){}
     int getID() const{
         return m_id;
     }

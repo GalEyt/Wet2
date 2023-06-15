@@ -6,6 +6,7 @@
 #include "unionFind.h"
 #include "Customer.h"
 #include "Record.h"
+#include "PrizeTree.h"
 #include <memory>
 
 
@@ -13,8 +14,12 @@ class RecordsCompany {
   private:
     int m_numOfCustomers;
     int m_numOfRecrods;
-    HashTable<int, std::shared_ptr<Customer>> m_customers;
-    HashTable<int, std::shared_ptr<Record>> m_records;
+    HashTable<int, std::shared_ptr<Customer> > m_customers;
+    HashTable<int, std::shared_ptr<Record> > m_records;
+    UnionFind<int> recordStacks;
+    PrizeTree<std::shared_ptr<Customer>, int> *m_prizeTree;
+    void updateCustomers(AVLTree<std::shared_ptr<Customer>, int>* root);
+    void updateCustomers(PrizeTree<std::shared_ptr<Customer>, int>* root);
 
   public:
     RecordsCompany();

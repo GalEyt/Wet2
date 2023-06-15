@@ -22,6 +22,9 @@ public:
     void rewarded(int prize){
         pay(-1 * prize);
     }
+    void newMonth(){
+        m_monthlyExpences = 0;
+    }
 };
 
 #endif // CUSTOMER

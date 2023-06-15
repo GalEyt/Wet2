@@ -325,6 +325,7 @@ AVLTree<T, ID> *AVLTree<T, ID>::find(ID id)
 	return left->find(id);
 }
 
+
 template <class T, class ID>
 void AVLTree<T, ID>::swapFatherRightSon()
 {

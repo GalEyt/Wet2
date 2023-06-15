@@ -91,6 +91,13 @@ public:
             return table[hushFunk(key)]->find(key)->getData();
         }
 
+        AVLTree<T, Key>** getTable(){
+            return table;
+        }
+
+        int getSize(){
+            return tableSize;
+        }
 };
 
 #endif //HASH_TABLE

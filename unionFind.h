@@ -125,11 +125,12 @@ public:
     int getID() { return ID; }
 };
 
-template <class T, int N>
+template <class T>
 class UnionFind
 {
 private:
-    std::shared_ptr<Element<T> > elements[N];
+    Element<T>** elements;
+    int amount;
 
     void unionhelper(Element<T> *elem, Element<T> *root)
     {
@@ -137,18 +138,29 @@ private:
     }
 
 public:
-    UnionFind(T *t, int *heights)
+    UnionFind() : elements(nullptr), amount(0) {}
+
+    UnionFind(T *t, int *heights, int amount)
     {
-        for (int i = 0; i < N; i++)
+        elements = (Element<T>**)malloc(sizeof(Element<T>**)*amount);
+        for (int i = 0; i < amount; i++)
         {
-            elements[i] = std::shared_ptr<Element<T> >(new Element<T>(i, t[i], i, heights[i]));
+            elements[i] = new Element<T>(i, t[i], i, heights[i]);
         }
+    }
+
+    ~UnionFind(){
+        delete[] elements;
+    //     for(int i = 0; i < amount; i++){
+    //         delete elements[i];
+    //     }
+    //     free(elements);
     }
 
     int find(int elementID)
     {
         rootPair<Element<T> > root = elements[elementID]->getRootAndR();
-        Element<T> *it = elements[elementID].get();
+        Element<T> *it = elements[elementID];
         Element<T> *tmp;
         int rTmp;
 
@@ -166,7 +178,7 @@ public:
 
     int getHeight(int elemID){
         find(elemID);
-        Element<T> *elem = elements[elemID].get();
+        Element<T> *elem = elements[elemID];
         if(elem->isRoot()){
             return elem->getR();
         }
