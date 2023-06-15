@@ -485,16 +485,16 @@ void unitestRecordCompany(){
 }
 
 int main(){
-    // unitestHT();
-    // unitestHT2();
-    // unitestHT3();
-    // unitestHT4();
-    // unitestsUF();
-    // unitestsUF2();
-    // unitestsUF3();
-    // unitestPrizeTree();
-    // unitestPrizeTree2();
-    // unitestPrizeTree3();
+    unitestHT();
+    unitestHT2();
+    unitestHT3();
+    unitestHT4();
+    unitestsUF();
+    unitestsUF2();
+    unitestsUF3();
+    unitestPrizeTree();
+    unitestPrizeTree2();
+    unitestPrizeTree3();
     unitestRecordCompany();
     std::cout << "All tests passed!" << std::endl;
     return 0;

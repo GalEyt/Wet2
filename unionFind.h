@@ -203,7 +203,7 @@ public:
         {
             root1->addToR(root2->getGroup()->getHeight());
             root2->addToR(-1 * root1->getR());
-            root1->getGroup()->setID(root2->getGroup()->getID();
+            root1->getGroup()->setID(root2->getGroup()->getID());
             unionhelper(root2, root1);
         }
     }

@@ -115,8 +115,8 @@ int main()
   }
   delete test_obj;
   return 0;
-}*/
-
+}
+*/
 
 static const char *StatusTypeStr[] =
     {
