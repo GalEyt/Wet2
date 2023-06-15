@@ -2,6 +2,7 @@
 #define UNION_FIND
 #include <cassert>
 #include <memory>
+#include <AVLT.h>
 
 template<class T>
 struct rootPair{
@@ -159,6 +160,10 @@ public:
 
     int find(int elementID)
     {
+        if (elementID < 0 || elementID >= amount)
+        {
+            throw DOESNT_EXISTS();
+        }
         rootPair<Element<T> > root = elements[elementID]->getRootAndR();
         Element<T> *it = elements[elementID];
         Element<T> *tmp;

@@ -290,7 +290,7 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight)
     {
         return StatusType::DOESNT_EXISTS;
     }
-        catch (EmptyTree)
+    catch (EmptyTree)
     {
         return (StatusType::DOESNT_EXISTS);
     }
