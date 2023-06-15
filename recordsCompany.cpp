@@ -53,13 +53,11 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
     {
         m_numOfRecrods = number_of_records;
         m_records = HashTable<int, std::shared_ptr<Record>>();
-        int heights[number_of_records];
         for (int i = 0; i < number_of_records; i++)
         {
-            heights[i] = records_stocks[i];
             m_records.addElement(shared_ptr<Record>(new Record(i, records_stocks[i])), i);
         }
-        recordStacks = UnionFind<int>(records_stocks, heights, number_of_records);
+        recordStacks = UnionFind<int>(records_stocks, records_stocks, number_of_records);
         AVLTree<std::shared_ptr<Customer>, int>** cust_table = m_customers.getTable();
 
         for (int i = 0; i < m_customers.getSize(); i++)
