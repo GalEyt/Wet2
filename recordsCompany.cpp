@@ -116,6 +116,10 @@ Output_t<int> RecordsCompany::getPhone(int c_id)
     {
         return Output_t<int>(StatusType::DOESNT_EXISTS);
     }
+    catch (EmptyTree)
+    {
+        return Output_t<int>(StatusType::DOESNT_EXISTS);
+    }
     return Output_t<int>(phone);
 }
 
@@ -134,11 +138,15 @@ StatusType RecordsCompany::makeMember(int c_id)
             return StatusType::ALREADY_EXISTS;
         }
         ptr->makeMember();
-        m_prizeTree->insert(ptr, ptr->getID());
+        m_prizeTree = m_prizeTree->insert(ptr, ptr->getID());
     }
     catch (NotFound)
     {
         return StatusType::DOESNT_EXISTS;
+    }
+    catch (EmptyTree)
+    {
+        return (StatusType::DOESNT_EXISTS);
     }
 	catch (std::bad_alloc const&)
 	{
@@ -162,7 +170,10 @@ Output_t<bool> RecordsCompany::isMember(int c_id)
     {
         return Output_t<bool>(StatusType::DOESNT_EXISTS);
     }
-
+    catch (EmptyTree)
+    {
+        return Output_t<bool>(StatusType::DOESNT_EXISTS);
+    }
     return Output_t<bool>(isMember);
 }
 
@@ -186,12 +197,16 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id)
     {
         return StatusType::DOESNT_EXISTS;
     }
+        catch (EmptyTree)
+    {
+        return (StatusType::DOESNT_EXISTS);
+    }
     return StatusType::SUCCESS;
 }
 
 StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double amount)
 {
-    if (c_id1 < 0 || c_id2 < 0 || amount <= 0 || c_id1 >= c_id2)
+    if (c_id1 < 0 || c_id2 < 0 || amount <= 0 || c_id1 > c_id2)
     {
         return StatusType::INVALID_INPUT;
     }
@@ -216,12 +231,13 @@ Output_t<double> RecordsCompany::getExpenses(int c_id)
     double expences;
     try
     {
-        if(!m_customers.getElement(c_id)->isMember()){
-            return Output_t<double>(0);
-        }
         expences = m_customers.getElement(c_id)->getExpences() - m_prizeTree->getSum(m_prizeTree->find(c_id));
     }
     catch (NotFound)
+    {
+        return Output_t<double>(StatusType::DOESNT_EXISTS);
+    }
+        catch (EmptyTree)
     {
         return Output_t<double>(StatusType::DOESNT_EXISTS);
     }
@@ -230,12 +246,18 @@ Output_t<double> RecordsCompany::getExpenses(int c_id)
 
 StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
 {
-    if (r_id1 < 0 || r_id2 < 0 || r_id1 >= m_numOfRecrods || r_id2 >= m_numOfRecrods)
+    if (r_id1 < 0 || r_id2 < 0)
     {
         return StatusType::INVALID_INPUT;
     }
+    if(r_id1 >= m_numOfRecrods || r_id2 >= m_numOfRecrods){
+        return StatusType::DOESNT_EXISTS;
+    }
     try
     {
+        if(recordStacks.find(r_id1) == recordStacks.find(r_id2)){
+            return StatusType::FAILURE;
+        }
         recordStacks.unionGroups(r_id1, r_id2);
     }
     catch (std::bad_alloc const &)
@@ -246,12 +268,16 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
     {
         return StatusType::DOESNT_EXISTS;
     }
+        catch (EmptyTree)
+    {
+        return (StatusType::DOESNT_EXISTS);
+    }
     return StatusType::SUCCESS;
 }
 
 StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight)
 {
-    if (r_id < 0 || r_id >= m_numOfRecrods)
+    if (r_id < 0 || !hight || !column)
     {
         return StatusType::INVALID_INPUT;
     }
@@ -263,6 +289,10 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight)
     catch (NotFound)
     {
         return StatusType::DOESNT_EXISTS;
+    }
+        catch (EmptyTree)
+    {
+        return (StatusType::DOESNT_EXISTS);
     }
     return StatusType::SUCCESS;
 }
