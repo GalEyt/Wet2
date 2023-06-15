@@ -98,6 +98,18 @@ public:
         int getSize(){
             return tableSize;
         }
+
+        void reset(){
+            for (int i = 0; i < tableSize; i++)
+            {
+                delete table[i];
+            }
+            table = (AVLTree<T, Key>**)malloc(sizeof(AVLTree<T, Key>*)*2);
+            table[0] = new AVLTree<T, Key>();
+            table[1] = new AVLTree<T, Key>();
+            tableSize = 2;
+            elementCount = 0;
+        }
 };
 
 #endif //HASH_TABLE

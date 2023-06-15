@@ -34,7 +34,7 @@ void RecordsCompany::updateCustomers(PrizeTree<std::shared_ptr<Customer>, int> *
         }
 }
 
-RecordsCompany::RecordsCompany() : m_numOfCustomers(0), m_numOfRecrods(0), m_customers(HashTable<int, std::shared_ptr<Customer>>()), m_records(HashTable<int, std::shared_ptr<Record>>()), recordStacks(UnionFind<int>()), m_prizeTree(new PrizeTree<std::shared_ptr<Customer>, int>())
+RecordsCompany::RecordsCompany() : m_numOfCustomers(0), m_numOfRecrods(0), m_customers(HashTable<int, std::shared_ptr<Customer> >()), m_records(HashTable<int, std::shared_ptr<Record> >()), recordStacks(UnionFind<int>()), m_prizeTree(new PrizeTree<std::shared_ptr<Customer>, int>())
 {
 }
 
@@ -52,7 +52,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
     try
     {
         m_numOfRecrods = number_of_records;
-        m_records = HashTable<int, std::shared_ptr<Record>>();
+        m_records.reset();
         for (int i = 0; i < number_of_records; i++)
         {
             m_records.addElement(shared_ptr<Record>(new Record(i, records_stocks[i])), i);

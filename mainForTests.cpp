@@ -474,20 +474,27 @@ void unitestPrizeTree3(){
 }
 
 void unitestRecordCompany(){
-
+    RecordsCompany* rc = new RecordsCompany();
+    rc->addCostumer(45115, 1108);
+    rc->addCostumer(18904, 94069);
+    Output_t<int> phone = rc->getPhone(18904);
+    assert(phone.ans() == 94069);
+    int arr[40] = {19, 16, 5, 10, 5, 2, 9, 5, 8, 9, 15, 8, 8, 8, 11, 14, 4, 19, 9, 16, 2, 11, 3, 6, 7, 4, 17, 10, 11, 4, 17, 12, 7, 3, 6, 4, 5, 1, 5, 4};
+    rc->newMonth(arr, 40);
 }
 
-// int main(){
-//     unitestHT();
-//     unitestHT2();
-//     unitestHT3();
-//     unitestHT4();
-//     unitestsUF();
-//     unitestsUF2();
-//     unitestsUF3();
-//     unitestPrizeTree();
-//     unitestPrizeTree2();
-//     unitestPrizeTree3();
-//     std::cout << "All tests passed!" << std::endl;
-//     return 0;
-// }
+int main(){
+    // unitestHT();
+    // unitestHT2();
+    // unitestHT3();
+    // unitestHT4();
+    // unitestsUF();
+    // unitestsUF2();
+    // unitestsUF3();
+    // unitestPrizeTree();
+    // unitestPrizeTree2();
+    // unitestPrizeTree3();
+    unitestRecordCompany();
+    std::cout << "All tests passed!" << std::endl;
+    return 0;
+}

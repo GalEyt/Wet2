@@ -5,3 +5,10 @@ mainForTests
 .vscode/settings.json
 mainForTests.dSYM/Contents/Info.plist
 mainForTests.exe
+.vscode/extensions.json
+mainWet2.dSYM/Contents/Info.plist
+.gitignore
+mainWet2
+official tests/dsaf
+.vscode/extensions.json
+.vscode/extensions.json
