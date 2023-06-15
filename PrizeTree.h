@@ -488,15 +488,18 @@ void PrizeTree<T, ID>::rollLL()
     int sum = parentB->getSum(parentB);
     int realExtraB = sum + this->extra;
     int realExtraA = realExtraB + A->extra;
-    int realExtraAR = realExtraA + AR->extra;
+	int realExtraAR;
+    
     A->extra = realExtraA - sum;
     this->extra = realExtraB - sum - A->extra;
-    AR->extra = realExtraAR - sum - A->extra - this->extra; 
+    
 	A->updateParent(parentB);
 	updateParent(A);
 	if (AR)
 	{
 		AR->updateParent(this);
+		realExtraAR = realExtraA + AR->extra;
+		AR->extra = realExtraAR - sum - A->extra - this->extra; 
 	}
 	else
 	{
@@ -515,15 +518,18 @@ void PrizeTree<T, ID>::rollRR()
     int sum = parentB->getSum(parentB);
     int realExtraB = sum + this->extra;
     int realExtraA = realExtraB + A->extra;
-    int realExtraAL = realExtraA + AL->extra;
+	int realExtraAL;
+
     A->extra = realExtraA - sum;
     this->extra = realExtraB - sum - A->extra;
-    AL->extra = realExtraAL - sum - A->extra - this->extra; 
+    
 	A->updateParent(parentB);
 	updateParent(A);
 	if (AL)
 	{
 		AL->updateParent(this);
+		realExtraAL = realExtraA + AL->extra;
+		AL->extra = realExtraAL - sum - A->extra - this->extra; 
 	}
 	else
 	{
