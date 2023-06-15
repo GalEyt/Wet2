@@ -81,6 +81,7 @@ public:
             {
                 next->group->addGroupCount(group->getGroupCount());
                 next->group->addHeight(group->getHeight());
+                next->group->setID(int(string(group->getID()) + string(next->group->getID())));
             }
         }
         this->next = next;
