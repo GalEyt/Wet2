@@ -42,7 +42,7 @@ private:
 
     void changeSize(int size, int oldSize)
     {
-        //AVLTree<T, Key> **newTable = (AVLTree<T, Key> **)malloc(sizeof(AVLTree<T, Key> *) * size);
+        // AVLTree<T, Key> **newTable = (AVLTree<T, Key> **)malloc(sizeof(AVLTree<T, Key> *) * size);
         AVLTree<T, Key> **newTable = new AVLTree<T, Key> *[size];
         arrayInit(newTable, size);
         tableSize = size;
@@ -55,20 +55,15 @@ private:
                 table[i] = table[i]->remove(rootID);
             }
         }
-        // for (int i = 0; i < tableSize; i++)
-        // {
-        //     if(table[i]){
-        //         table[i]->deleteTree(table[i]);
-        //     }
-            
-        // }
+        for (int i = 0; i < oldSize; i++)
+        {
+            if (table[i])
+            {
+                table[i]->deleteTree(table[i]);
+            }
+        }
         delete[] table;
         table = newTable;
-        for (int i = 0; i < tableSize; i++)
-        {
-            table[i] = newTable[i];
-        }   
-        delete[] newTable;
     }
 
     int hushFunk(Key key)

@@ -503,12 +503,12 @@ void unitestVG(){
 }
 
 int main(){
-    unitestVG();
-    //unitestHT();
+    // unitestVG();
+    // unitestHT();
     // unitestHT2();
     // unitestHT3();
     // unitestHT4();
-    // unitestsUF();
+     unitestsUF();
     // unitestsUF2();
     // unitestsUF3();
     // unitestPrizeTree();
