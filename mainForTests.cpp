@@ -497,7 +497,7 @@ void unitestVG(){
     table->addElement(55, 72);
     assert(table->getElement(72)==55);
     table->addElement(43, 54);
-    //table->addElement(23, 76);
+    table->addElement(23, 76);
     delete table;
 
 }
