@@ -40,7 +40,7 @@ RecordsCompany::RecordsCompany() : m_numOfCustomers(0), m_numOfRecrods(0), m_cus
 
 RecordsCompany::~RecordsCompany()
 {
-    delete m_prizeTree;
+    m_prizeTree->deleteTree(m_prizeTree);
 }
 
 StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)

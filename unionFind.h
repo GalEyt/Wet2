@@ -152,9 +152,9 @@ public:
     }
 
     ~UnionFind(){
-        // for(int i = 0; i < amount; i++){
-        //     delete elements[i];
-        // }
+        for(int i = 0; i < amount; i++){
+            delete elements[i];
+        }
         // free(elements)
         delete[] elements;
     }
@@ -215,9 +215,9 @@ public:
     }
 
     void update(T *t, int amount){
-        // for(int i = 0; i < amount; i++){
-        //     delete elements[i];
-        // }
+        for(int i = 0; i < this->amount; i++){
+            delete elements[i];
+        }
         // free(elements);
         delete[] elements;
         this->amount = amount;

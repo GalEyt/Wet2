@@ -352,7 +352,7 @@ void unitestPrizeTree(){
     assert(root->getSum(root->find(9)) == 5);
     assert(root->getSum(root->find(11)) == 2);
     assert(root->getSum(root->find(13)) == 0);
-    delete root;
+    root->deleteTree(root);
 }
  
 void unitestPrizeTree2(){
@@ -461,7 +461,7 @@ void unitestPrizeTree2(){
     assert(root->getSum(root->find(13)) == 2);
     assert(root->getSum(root->find(15)) == 0);
     assert(root->getSum(root->find(16)) == 0);
-    delete root;
+    root->deleteTree(root);
 }
 
 void unitestPrizeTree3(){
@@ -476,7 +476,7 @@ void unitestPrizeTree3(){
     root->addPrize(4, 8);
     root->addPrize(-4, 7);
     assert(root->getSum(root->find(7)) == 8);
-    delete root;
+    root->deleteTree(root);
 }
 
 void unitestRecordCompany(){
@@ -502,19 +502,19 @@ void unitestVG(){
 
 }
 
-int main(){
+/*int main(){
     // unitestVG();
     // unitestHT();
     // unitestHT2();
     // unitestHT3();
     // unitestHT4();
      unitestsUF();
-    // unitestsUF2();
-    // unitestsUF3();
-    // unitestPrizeTree();
-    // unitestPrizeTree2();
-    // unitestPrizeTree3();
-    // unitestRecordCompany();
+    unitestsUF2();
+    unitestsUF3();
+    unitestPrizeTree();
+    unitestPrizeTree2();
+    unitestPrizeTree3();
+    unitestRecordCompany();
     std::cout << "All tests passed!" << std::endl;
     return 0;
-}
+}*/
