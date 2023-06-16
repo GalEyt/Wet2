@@ -143,7 +143,7 @@ public:
 
     UnionFind(T *t, int *heights, int amount)
     {
-        elements = (Element<T>**)malloc(sizeof(Element<T>**)*amount);
+        elements = new Element<T> *[amount];
         for (int i = 0; i < amount; i++)
         {
             elements[i] = new Element<T>(i, t[i], i, heights[i]);
@@ -151,10 +151,11 @@ public:
     }
 
     ~UnionFind(){
-        for(int i = 0; i < amount; i++){
-            delete elements[i];
-        }
-        free(elements);
+        // for(int i = 0; i < amount; i++){
+        //     delete elements[i];
+        // }
+        // free(elements)
+        delete[] elements;
     }
 
     int find(int elementID)
@@ -213,12 +214,13 @@ public:
     }
 
     void update(T *t, int amount){
-        for(int i = 0; i < amount; i++){
-            delete elements[i];
-        }
-        free(elements);
-        elements = (Element<T>**)malloc(sizeof(Element<T>**)*amount);
+        // for(int i = 0; i < amount; i++){
+        //     delete elements[i];
+        // }
+        // free(elements);
+        delete[] elements;
         this->amount = amount;
+        elements = new Element<T> *[amount];
         for (int i = 0; i < amount; i++)
         {
             elements[i] = new Element<T>(i, t[i], i, t[i]);
