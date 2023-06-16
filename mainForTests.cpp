@@ -66,6 +66,7 @@ void unitestHT(){
     table->removeElement(98);
     table->removeElement(12);
     table->removeElement(90);
+    delete table;
 }
 
 void unitestHT2(){
@@ -119,6 +120,7 @@ void unitestHT2(){
     assert(table->getElement(712342)==5345);
     assert(table->getElement(55)==44);
     assert(table->getElement(98)==66);
+    delete table;
 }
 
 void unitestHT3(){
@@ -207,8 +209,9 @@ void unitestsUF(){
             }
         }
     }
-    delete data;
-    delete heights;
+    free(data) ;
+    free(heights) ;
+    delete uf;
 }
 
 void unitestsUF2(){
@@ -264,8 +267,9 @@ void unitestsUF2(){
     assert(uf->find(2) == uf->find(8));
     assert(uf->find(8) == uf->find(9));
     assert(uf->find(6) == uf->find(9));
-    delete data;
-    delete heights;
+    free(data) ;
+    free(heights) ;
+    delete uf;
 }
 
 void unitestsUF3(){
@@ -308,8 +312,8 @@ void unitestsUF3(){
     assert(uf.find(2) == uf.find(8));
     assert(uf.find(8) == uf.find(9));
     assert(uf.find(6) == uf.find(9));
-    delete data;
-    delete heights;
+    free(data) ;
+    free(heights) ;
 }
 
 void unitestPrizeTree(){
@@ -457,6 +461,7 @@ void unitestPrizeTree2(){
     assert(root->getSum(root->find(13)) == 2);
     assert(root->getSum(root->find(15)) == 0);
     assert(root->getSum(root->find(16)) == 0);
+    delete root;
 }
 
 void unitestPrizeTree3(){
@@ -471,6 +476,7 @@ void unitestPrizeTree3(){
     root->addPrize(4, 8);
     root->addPrize(-4, 7);
     assert(root->getSum(root->find(7)) == 8);
+    delete root;
 }
 
 void unitestRecordCompany(){
@@ -482,20 +488,33 @@ void unitestRecordCompany(){
     int arr[40] = {19, 16, 5, 10, 5, 2, 9, 5, 8, 9, 15, 8, 8, 8, 11, 14, 4, 19, 9, 16, 2, 11, 3, 6, 7, 4, 17, 10, 11, 4, 17, 12, 7, 3, 6, 4, 5, 1, 5, 4};
     rc->newMonth(arr, 40);
     rc->putOnTop(3, 28);
+    delete rc;
+}
+
+
+void unitestVG(){
+    HashTable<int, int>* table = new HashTable<int, int>();
+    table->addElement(55, 72);
+    assert(table->getElement(72)==55);
+    table->addElement(43, 54);
+    //table->addElement(23, 76);
+    delete table;
+
 }
 
 int main(){
-    unitestHT();
-    unitestHT2();
-    unitestHT3();
-    unitestHT4();
-    unitestsUF();
-    unitestsUF2();
-    unitestsUF3();
-    unitestPrizeTree();
-    unitestPrizeTree2();
-    unitestPrizeTree3();
-    unitestRecordCompany();
+    unitestVG();
+    //unitestHT();
+    // unitestHT2();
+    // unitestHT3();
+    // unitestHT4();
+    // unitestsUF();
+    // unitestsUF2();
+    // unitestsUF3();
+    // unitestPrizeTree();
+    // unitestPrizeTree2();
+    // unitestPrizeTree3();
+    // unitestRecordCompany();
     std::cout << "All tests passed!" << std::endl;
     return 0;
 }

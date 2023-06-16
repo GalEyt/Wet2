@@ -2,7 +2,7 @@
 #define UNION_FIND
 #include <cassert>
 #include <memory>
-#include <AVLT.h>
+#include "AVLTree.h"
 
 template<class T>
 struct rootPair{
@@ -151,18 +151,17 @@ public:
     }
 
     ~UnionFind(){
-        delete[] elements;
-    //     for(int i = 0; i < amount; i++){
-    //         delete elements[i];
-    //     }
-    //     free(elements);
+        for(int i = 0; i < amount; i++){
+            delete elements[i];
+        }
+        free(elements);
     }
 
     int find(int elementID)
     {
         if (elementID < 0 || elementID >= amount)
         {
-            throw DOESNT_EXISTS();
+            throw NotFound();
         }
         rootPair<Element<T> > root = elements[elementID]->getRootAndR();
         Element<T> *it = elements[elementID];
@@ -214,8 +213,12 @@ public:
     }
 
     void update(T *t, int amount){
-        delete[] elements;
+        for(int i = 0; i < amount; i++){
+            delete elements[i];
+        }
+        free(elements);
         elements = (Element<T>**)malloc(sizeof(Element<T>**)*amount);
+        this->amount = amount;
         for (int i = 0; i < amount; i++)
         {
             elements[i] = new Element<T>(i, t[i], i, t[i]);
