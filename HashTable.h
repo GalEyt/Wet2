@@ -42,7 +42,6 @@ private:
 
     void changeSize(int size, int oldSize)
     {
-
         //AVLTree<T, Key> **newTable = (AVLTree<T, Key> **)malloc(sizeof(AVLTree<T, Key> *) * size);
         AVLTree<T, Key> **newTable = new AVLTree<T, Key> *[size];
         arrayInit(newTable, size);
@@ -56,15 +55,15 @@ private:
                 table[i] = table[i]->remove(rootID);
             }
         }
-        for (int i = 0; i < tableSize; i++)
-        {
-            if(table[i]){
-                table[i]->deleteTree(table[i]);
-            }
+        // for (int i = 0; i < tableSize; i++)
+        // {
+        //     if(table[i]){
+        //         table[i]->deleteTree(table[i]);
+        //     }
             
-        }
-        free(table);
-        table = (AVLTree<T, Key> **)malloc(sizeof(AVLTree<T, Key> *) * size);
+        // }
+        delete[] table;
+        table = newTable;
         for (int i = 0; i < tableSize; i++)
         {
             table[i] = newTable[i];
@@ -80,7 +79,7 @@ private:
 public:
     HashTable()
     {
-        table = (AVLTree<T, Key> **)malloc(sizeof(AVLTree<T, Key> *) * 2);
+        table = new AVLTree<T, Key> *[2];
         table[0] = new AVLTree<T, Key>();
         table[1] = new AVLTree<T, Key>();
     }
@@ -91,7 +90,8 @@ public:
         {
             table[i]->deleteTree(table[i]);
         }
-        free(table);
+        delete[] table;
+        // free(table);
     }
 
     void addElement(T elem, Key key)
@@ -139,8 +139,10 @@ public:
         {
             table[i]->deleteTree(table[i]);
         }
-        free(table);
-        table = (AVLTree<T, Key> **)malloc(sizeof(AVLTree<T, Key> *) * 2);
+        // free(table);
+        delete[] table;
+        table = new AVLTree<T, Key> *[2];
+        // table = (AVLTree<T, Key> **)malloc(sizeof(AVLTree<T, Key> *) * 2);
         table[0] = new AVLTree<T, Key>();
         table[1] = new AVLTree<T, Key>();
         tableSize = 2;
