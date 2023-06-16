@@ -143,6 +143,7 @@ public:
 
     UnionFind(T *t, int *heights, int amount)
     {
+        this->amount = amount;
         elements = new Element<T> *[amount];
         for (int i = 0; i < amount; i++)
         {
