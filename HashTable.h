@@ -8,9 +8,9 @@ template <class Key, class T>
 class HashTable
 {
 private:
-    int elementCount = 0;
+    int elementCount;
     AVLTree<T, Key> **table;
-    int tableSize = 2;
+    int tableSize;
 
     bool checkForExpansion()
     {
@@ -72,7 +72,7 @@ private:
     }
 
 public:
-    HashTable()
+    HashTable() : elementCount(0), tableSize(2)
     {
         table = new AVLTree<T, Key> *[2];
         table[0] = new AVLTree<T, Key>();

@@ -5,10 +5,10 @@ class Customer{
 private:
     int m_id;
     int m_phone;
-    bool m_member = false;
-    double m_monthlyExpences = 0;
+    bool m_member;
+    double m_monthlyExpences;
 public:
-    Customer(int id, int phone) : m_id(id), m_phone(phone){}
+    Customer(int id, int phone) : m_id(id), m_phone(phone), m_member(false), m_monthlyExpences(0){}
     int getID() const {return m_id;};
     int getPhone() const {return m_phone;};
     double getExpences() const {return m_monthlyExpences;}

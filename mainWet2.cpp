@@ -15,7 +15,7 @@ void print(string cmd, Output_t<T> res);
 
 vector<int> getRecordsStocks();
 
-/*
+
 int main()
 {
   string op;
@@ -116,7 +116,6 @@ int main()
   delete test_obj;
   return 0;
 }
-*/
 
 static const char *StatusTypeStr[] =
     {

@@ -159,8 +159,8 @@ private:
 	}
 
 public:
-	PrizeTree() : right(nullptr), left(nullptr), parent(nullptr), height(-1), balance(0), m_data(), m_id(), extra(0) {}
-	PrizeTree(PrizeTree<T, ID> *parent, T data, ID id) : right(nullptr), left(nullptr), parent(parent), height(0), balance(0), m_data(data), m_id(id), extra(0) {}
+	PrizeTree() : right(nullptr), left(nullptr), parent(nullptr), height(-1), balance(0), extra(0), m_data(T()), m_id(ID()) {}
+	PrizeTree(PrizeTree<T, ID> *parent, T data, ID id) : right(nullptr), left(nullptr), parent(parent), height(0), balance(0), extra(0), m_data(data), m_id(id) {}
 	~PrizeTree() = default;
 	void deleteTree(PrizeTree<T, ID> *root);
 	PrizeTree<T, ID> *find(ID id);
