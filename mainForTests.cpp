@@ -125,7 +125,7 @@ void unitestHT2(){
 
 void unitestHT3(){
     HashTable<int, int>* table = new HashTable<int, int>();
-    int arrSize = 10000;
+    const int arrSize = 10000;
     int data[arrSize];
     for (int i = 0; i < 1000; i++)
     {
@@ -147,7 +147,7 @@ void unitestHT3(){
 
 void unitestHT4(){
     HashTable<int, int>* table = new HashTable<int, int>();
-    int arrSize = 10000;
+    const int arrSize = 10000;
     int data[arrSize];
     for (int i = 1; i < 1001; i++)
     {
